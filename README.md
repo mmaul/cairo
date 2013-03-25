@@ -22,17 +22,17 @@ the c2flx C binding generator.
 
 ## Quickstart Installation ##
 
-    scoop get c2flx
-    scoop build c2flx
+    scoop get cairo
+    scoop build cairo
 
 if building as root or installation directory is write-able by you
 
-    scoop install c2flx
+    scoop install cairo
 
 Otherwise
 
      su # or sudo -s
-     scoop install flx --litterbox=/home/<your username>/.felix/litterbox
+     scoop install cairo --litterbox=/home/<your username>/.felix/litterbox
 
 ## Documentation ##
 
