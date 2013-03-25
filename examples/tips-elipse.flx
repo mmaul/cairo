@@ -1,0 +1,35 @@
+// Ported from cairo tutorial at http://cairographics.org/tutorial/
+include "Cairo/cairo";
+open Cairo;
+open C_hack;
+
+fun main () = {
+  var surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 120, 120);
+  var cr = cairo_create (surface);
+
+  /* Examples are in 1.0 x 1.0 coordinate space */
+  cairo_scale (cr, 120.0, 120.0);
+
+  /* Drawing code goes here */
+  const M_PI:double requires C89_headers::math_h;
+  cairo_set_line_width (cr, 0.1);
+
+  cairo_save (cr);
+  cairo_scale (cr, 0.5, 1.0);
+  cairo_arc (cr, 0.5, 0.5, 0.40, 0.0, 2.0 * M_PI);
+  cairo_stroke (cr);
+
+  cairo_translate (cr, 1.0, 0.0);
+  cairo_arc (cr, 0.5, 0.5, 0.40, 0.0, 2.0 * M_PI);
+  cairo_restore (cr);
+  cairo_stroke (cr);
+
+  /* Write output and clean up */
+  ignore(cairo_surface_write_to_png (surface, cast[&char](cstr("tips-elipse.png"))));
+  cairo_destroy (cr);
+  cairo_surface_destroy (surface);
+
+  return 0;
+}
+
+System::exit(main());

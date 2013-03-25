@@ -1,0 +1,32 @@
+// Ported from cairo tutorial at http://cairographics.org/tutorial/
+include "Cairo/cairo";
+open Cairo;
+open C_hack;
+
+fun main () = {
+  var surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 120, 120);
+  var cr = cairo_create (surface);
+  var te:cairo_text_extents_t;
+  /* Examples are in 1.0 x 1.0 coordinate space */
+  cairo_scale (cr, 120.0, 120.0);
+
+  /* Drawing code goes here */
+  cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+  cairo_paint_with_alpha (cr, 0.5);
+  cairo_select_font_face (cr, cast[&char](cstr("Georgia")),
+    CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
+  cairo_set_font_size (cr, 1.2);
+  cairo_text_extents (cr, cast[&char](cstr("a")), &te);
+  cairo_move_to (cr, 0.5 - te.width / 2.0 - te.x_bearing,
+    0.5 - te.height / 2.0 - te.y_bearing);
+  cairo_show_text (cr, cast[&char](cstr("a")));
+
+  /* Write output and clean up */
+  ignore(cairo_surface_write_to_png (surface, cast[&char](cstr("paint.png"))));
+  cairo_destroy (cr);
+  cairo_surface_destroy (surface);
+
+  return 0;
+}
+
+System::exit(main());
